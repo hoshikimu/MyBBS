@@ -60,7 +60,7 @@ $posts = array_reverse($posts);
   <title>MyBBS</title>
 </head>
 <body>
-  <h1>簡易掲示板</h1>
+  <h1>MyBBS</h1>
   <form action="" method="post">
     message: <input type="text" name="message">
     user: <input type="text" name="user">
