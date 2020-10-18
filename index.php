@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' &&
 
   if ($message !== '') {
 
-    $user = ($user === '') ? 'ななしさん' : $user;
+    $user = ($user === '') ? '名無しさん' : $user;
 
     $message = str_replace("\t", ' ', $message);
     $user = str_replace("\t", ' ', $user);
@@ -73,23 +73,26 @@ $posts = array_reverse($posts);
   <main>
     <div class="container">
       <form action="" method="post" class="form-container">
-        投稿者: <input type="text" name="user"><br>
-        本　文: <textarea type="text" name="message"></textarea><br>
+        <span class="form-title">投稿者</span><input type="text" name="user"><br>
+        <span class="form-title">本　文</span><textarea type="text" name="message"></textarea><br>
         <input type="hidden" name="token" value="<?php echo h($_SESSION['token']); ?>">
         <input type="submit" value="投稿" class="btn">
       </form>
-      <h2>投稿一覧（<?php echo count($posts); ?>件）</h2>
-      <ul>
-        <?php if (count($posts)) : ?>
-          <?php foreach ($posts as $post) : ?>
-          <?php list($message, $user, $postedAt) = explode("\t", $post); ?>
-            <li><?php echo h($user); ?> / <?php echo h($postedAt); ?></li>
-            <li><?php echo h($message); ?></li>
-          <?php endforeach; ?>
-        <?php else : ?>
-          <li>まだ投稿はありません。</li>
-        <?php endif; ?>
-      </ul>
+      <div class="posts-container">
+        <h3>投稿一覧（全<?php echo count($posts); ?>件）</h3>
+        <table>
+          <?php if (count($posts)) : ?>
+            <tr><th class="post-user">投稿者</th><th class="post-at">投稿日時</th><th class="post-message">本文</th></tr>
+            <?php foreach ($posts as $post) : ?>
+            <?php list($message, $user, $postedAt) = explode("\t", $post); ?>
+              <tr><td><?php echo h($user); ?></td><td><?php echo h($postedAt); ?></td><td><?php echo h($message); ?></td></tr>
+            <?php endforeach; ?>
+          <?php else : ?>
+            <tr><td>まだ投稿はありません。</td></tr>
+          <?php endif; ?>
+        </table>
+      </div>
+    </div>
   </main>
   </div>
 </body>
