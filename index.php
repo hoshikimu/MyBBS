@@ -1,5 +1,6 @@
 <?php
 
+date_default_timezone_set('Asia/Tokyo');
 $dataFile = 'bbs.dat';
 
 session_start();
@@ -78,19 +79,21 @@ $posts = array_reverse($posts);
         <input type="hidden" name="token" value="<?php echo h($_SESSION['token']); ?>">
         <input type="submit" value="投稿" class="btn">
       </form>
-      <div class="posts-container">
-        <h3>投稿一覧（全<?php echo count($posts); ?>件）</h3>
-        <table>
-          <?php if (count($posts)) : ?>
-            <tr><th class="post-user">投稿者</th><th class="post-at">投稿日時</th><th class="post-message">本文</th></tr>
-            <?php foreach ($posts as $post) : ?>
-            <?php list($message, $user, $postedAt) = explode("\t", $post); ?>
-              <tr><td><?php echo h($user); ?></td><td><?php echo h($postedAt); ?></td><td><?php echo h($message); ?></td></tr>
-            <?php endforeach; ?>
-          <?php else : ?>
-            <tr><td>まだ投稿はありません。</td></tr>
-          <?php endif; ?>
-        </table>
+      <div class="post-container">
+        <h3>　投稿一覧（全<?php echo count($posts); ?>件）</h3>
+        <div class="posts-table">
+          <table>
+            <?php if (count($posts)) : ?>
+              <tr><th class="post-user">投稿者</th><th class="post-at">投稿日時</th><th class="post-message">本文</th></tr>
+              <?php foreach ($posts as $post) : ?>
+              <?php list($message, $user, $postedAt) = explode("\t", $post); ?>
+                <tr><td><?php echo h($user); ?></td><td><?php echo h($postedAt); ?></td><td><?php echo h($message); ?></td></tr>
+              <?php endforeach; ?>
+            <?php else : ?>
+              <tr><td class="non-post">まだ投稿はありません。</td></tr>
+            <?php endif; ?>
+            </table>
+        </div>
       </div>
     </div>
   </main>
