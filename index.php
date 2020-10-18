@@ -44,6 +44,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' &&
     fwrite($fp, $newData);
     fclose($fp);
   }
+
+  header('Location: http://localhost/MyBBS/');
+  exit;
+
 } else {
   setToken();
 }
@@ -58,25 +62,35 @@ $posts = array_reverse($posts);
 <head>
   <meta charset="utf-8">
   <title>MyBBS</title>
+  <link rel="stylesheet" href="index.css">
 </head>
 <body>
-  <h1>MyBBS</h1>
-  <form action="" method="post">
-    message: <input type="text" name="message">
-    user: <input type="text" name="user">
-    <input type="submit" value="投稿">
-    <input type="hidden" name="token" value="<?php echo h($_SESSION['token']); ?>">
-  </form>
-  <h2>投稿一覧（<?php echo count($posts); ?>件）</h2>
-  <ul>
-    <?php if (count($posts)) : ?>
-      <?php foreach ($posts as $post) : ?>
-      <?php list($message, $user, $postedAt) = explode("\t", $post); ?>
-        <li><?php echo h($message); ?> (<?php echo h($user); ?>) - <?php echo h($postedAt); ?> </li>
-      <?php endforeach; ?>
-    <?php else : ?>
-      <li>まだ投稿はありません。</li>
-    <?php endif; ?>
-  </ul>
+  <header>
+    <nav>
+      <p class="h-logo">MyBBS</p>
+    </nav>
+  </header>
+  <main>
+    <div class="container">
+      <form action="" method="post" class="form-container">
+        投稿者: <input type="text" name="user"><br>
+        本　文: <textarea type="text" name="message"></textarea><br>
+        <input type="hidden" name="token" value="<?php echo h($_SESSION['token']); ?>">
+        <input type="submit" value="投稿" class="btn">
+      </form>
+      <h2>投稿一覧（<?php echo count($posts); ?>件）</h2>
+      <ul>
+        <?php if (count($posts)) : ?>
+          <?php foreach ($posts as $post) : ?>
+          <?php list($message, $user, $postedAt) = explode("\t", $post); ?>
+            <li><?php echo h($user); ?> / <?php echo h($postedAt); ?></li>
+            <li><?php echo h($message); ?></li>
+          <?php endforeach; ?>
+        <?php else : ?>
+          <li>まだ投稿はありません。</li>
+        <?php endif; ?>
+      </ul>
+  </main>
+  </div>
 </body>
 </html>
